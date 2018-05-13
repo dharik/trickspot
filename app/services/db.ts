@@ -4,18 +4,25 @@ export function get_all_gatherings() {
   return db
     .ref("gatherings")
     .once("value")
-    .then(gatherings => {
-      return Object.values(gatherings.val());
-    });
+    .then(snapshotToArrayWithKeys);
 }
 
-export function get_gatherings_by_user(uid:string) {
+export function get_gatherings_by_user(uid: string) {
   return db
     .ref("gatherings")
     .orderByChild("uid")
     .equalTo(uid)
     .once("value")
-    .then(snapshot => {
-      return Object.values(snapshot.val());
+    .then(snapshotToArrayWithKeys);
+}
+
+function snapshotToArrayWithKeys(snapshot:any) {
+  let g = [];
+  snapshot.forEach(item => {
+    g.push({
+      ...item.val(),
+      id: item.key
     });
+  });
+  return g;
 }

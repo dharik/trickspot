@@ -2,9 +2,10 @@
  * Sample React Native App
  * https://github.com/facebook/react-native
  * @flow
- */
+*/
+import React from 'react';
+import { Component } from 'react';
 
-import React, { Component } from 'react';
 import {
   Platform,
   StyleSheet,
@@ -13,10 +14,10 @@ import {
 } from 'react-native';
 
 const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
+  ios: 'Press Cmd+dfsdf to reload,\n' +
     'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
+  android: 'Double tap ddR on your keyboard to reload,\n' +
+    'Shake or press meu buasdfasdftton for dev menu',
 });
 
 type Props = {};
@@ -28,7 +29,7 @@ export default class App extends Component<Props> {
           Welcome to React Native!
         </Text>
         <Text style={styles.instructions}>
-          To get started, edit App.js
+          To get starsdfted, edit App.js
         </Text>
         <Text style={styles.instructions}>
           {instructions}

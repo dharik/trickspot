@@ -57,6 +57,7 @@ export default class TrickspotList extends Component {
           borderRadius: 5,
           padding: 5
         }}
+        onPress={() => this.props.navigation.navigate("view_spot", { spot: g })}
       >
         <Text style={{ fontWeight: "bold" }}>{g.title}</Text>
         <Text>{g.description}</Text>
@@ -73,7 +74,7 @@ export default class TrickspotList extends Component {
         data={this.state.gatherings.sort(by_distance)}
         renderItem={this.renderGathering}
         keyExtractor={g => g.id}
-        />
+      />
     );
   }
 }

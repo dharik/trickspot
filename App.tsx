@@ -9,6 +9,8 @@ import { Component } from "react";
 import { Platform, StyleSheet, Text, View, SafeAreaView } from "react-native";
 
 import MainStack from "./app/navigators/main";
+console.disableYellowBox = true;
+
 type Props = {};
 export default class App extends Component<Props> {
   render() {

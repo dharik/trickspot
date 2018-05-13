@@ -10,23 +10,24 @@ export async function requestLocationPermission() {
     );
 
     return granted === PermissionsAndroid.RESULTS.GRANTED;
-
   } catch (e) {
     console.error(e);
     return false;
   }
 }
 
-export async function getLocation() {
-  if(await requestLocationPermission()) {
-    navigator.geolocation.getCurrentPosition(position => {
-      console.log(position);
-    }, error => {
-      console.error(error)
-    }, {
-      timeout: 5000
-    })
-  } else {
-    console.error('no permission');
-  }
+export function getLocation() {
+  return new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        resolve(position);
+      },
+      error => {
+        reject(error);
+      },
+      {
+        timeout: 5000
+      }
+    );
+  });
 }

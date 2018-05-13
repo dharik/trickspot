@@ -8,18 +8,13 @@ import { Component } from "react";
 
 import { Platform, StyleSheet, Text, View, SafeAreaView } from "react-native";
 
-import TrickspotMap from "./app/screens/map";
-import TrickspotList from "./app/screens/list";
-
+import MainStack from "./app/navigators/main";
 type Props = {};
 export default class App extends Component<Props> {
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <TrickspotList />
-        <View style={styles.notificiation}>
-          <Text>Hi</Text>
-        </View>
+        <MainStack />
       </SafeAreaView>
     );
   }
@@ -29,11 +24,4 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
-  notificiation: {
-    position: 'absolute',
-    bottom: 20,
-    left: 20,
-    zIndex: 2,
-    backgroundColor: 'black'
-  }
 });

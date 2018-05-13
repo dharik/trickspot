@@ -55,7 +55,7 @@ export default class TrickspotMap extends Component {
             }}
             title={g.title}
             description={g.description}
-            key={g.uid}
+            key={g.id}
           />
         ))}
       </MapView>

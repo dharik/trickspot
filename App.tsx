@@ -6,36 +6,34 @@
 import React from "react";
 import { Component } from "react";
 
-import { Platform, StyleSheet, Text, View } from "react-native";
+import { Platform, StyleSheet, Text, View, SafeAreaView } from "react-native";
 
 import TrickspotMap from "./app/screens/map";
+import TrickspotList from "./app/screens/list";
 
 type Props = {};
 export default class App extends Component<Props> {
   render() {
     return (
-      <View style={styles.container}>
-        <TrickspotMap />
-      </View>
+      <SafeAreaView style={styles.container}>
+        <TrickspotList />
+        <View style={styles.notificiation}>
+          <Text>Hi</Text>
+        </View>
+      </SafeAreaView>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#F5FCFF"
+    flex: 1
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: "center",
-    margin: 10
-  },
-  instructions: {
-    textAlign: "center",
-    color: "#333333",
-    marginBottom: 5
+  notificiation: {
+    position: 'absolute',
+    bottom: 20,
+    left: 20,
+    zIndex: 2,
+    backgroundColor: 'black'
   }
 });

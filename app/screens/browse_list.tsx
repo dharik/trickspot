@@ -3,9 +3,10 @@ import { Component } from "react";
 import {
   View,
   Text,
-  ScrollView,
+  ActivityIndicator,
   TouchableOpacity,
-  FlatList
+  FlatList,
+  StyleSheet
 } from "react-native";
 import { get_all_gatherings } from "../services/db";
 import { getLocation } from "../services/location";
@@ -18,23 +19,35 @@ export default class TrickspotList extends Component {
     gpsLocation: {
       latitude: 0,
       longitude: 0
-    }
+    },
+    waiting_on_gatherings_list: true,
+    waiting_on_location: true,
+    something_went_wrong: false
   };
 
   componentDidMount() {
     get_all_gatherings()
       .then(r => {
         this.setState({
-          gatherings: r
+          gatherings: r,
+          waiting_on_gatherings_list: false
         });
       })
       .catch(e => {
+        this.setState({ something_went_wrong: true });
         console.error(e, "failed to get gatherings");
       });
 
-    getLocation().then(location => {
-      this.setState({ gpsLocation: location.coords });
-    });
+    getLocation()
+      .then(location => {
+        this.setState({
+          gpsLocation: location.coords,
+          waiting_on_location: false
+        });
+      })
+      .catch(e => {
+        this.setState({ something_went_wrong: true });
+      });
   }
 
   renderGathering = ({ item: g }) => {
@@ -67,6 +80,14 @@ export default class TrickspotList extends Component {
   };
 
   render() {
+    if (
+      this.state.something_went_wrong ||
+      this.state.waiting_on_gatherings_list ||
+      this.state.waiting_on_location
+    ) {
+      return this.renderLoading();
+    }
+
     const by_distance = create_distance_sorter(this.state.gpsLocation);
 
     return (
@@ -77,4 +98,33 @@ export default class TrickspotList extends Component {
       />
     );
   }
+
+  renderLoading() {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator animating={true} size={30} />
+        {this.state.waiting_on_location && (
+          <Text>Getting your location...</Text>
+        )}
+        {this.state.waiting_on_gatherings_list && (
+          <Text>Loading tricking spots and gatherings</Text>
+        )}
+        {this.state.something_went_wrong && (
+          <Text>
+            Something went wrong either getting your location or loading
+            gatherings
+          </Text>
+        )}
+      </View>
+    );
+  }
 }
+
+const styles = StyleSheet.create({
+  loadingContainer: {
+    ...StyleSheet.absoluteFillObject,
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  }
+});

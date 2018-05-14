@@ -26,27 +26,29 @@ export default class ViewTrickSpot extends React.Component {
     const today = Date.now();
     const time_delta_created = today - created;
     const created_within_30_days = time_delta_created < 1000 * 3600 * 24 * 30;
-
-    if(!url.includes(':') && url.includes('.')) {
-      url = 'https://' + url;
-      console.log(url);
-    }
+    const url_is_valid = url.length > 0 && url.includes(':') && url.includes('.');
 
     return (
       <ScrollView>
         <Text style={{ fontWeight: "bold" }}>{title}</Text>
+
         <Text>{description}</Text>
+
         {frequency === "weekly" && <Text>{weekly_days.join(", ")}</Text>}
+
         {created_within_30_days && (
           <Text>Added to Trickspot in the last 30 days</Text>
         )}
-        {url.length > 0 && <Button title="Open website" onPress={() => this.safeOpenUrl(url)} />}
+
+        {url_is_valid && <Button title="Open website" onPress={() => this.safeOpenUrl(url)} />}
+
         <View style={{ flexDirection: "row" }}>
           {hasCrashPads && label("Crashpads")}
           {isFree && label("Free")}
           {isGrass && label("Grass")}
           {isSpringFloor && label("Springboard")}
         </View>
+        
         <MapView
           style={{ height: 200 }}
           region={{
